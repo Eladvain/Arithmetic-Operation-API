@@ -15,7 +15,7 @@ In addition pay attention that the application implement auth path.
 
 - After user doing valid login request - he gets back valid token for 300s(5 minutes - claim expiration time).
 
-In the project I am implemented unit test and and in order to run these tests - you have to type the command "npm run test:watch".
+In the project I implemented unit test and and in order to run these tests - you have to type the command "npm run test:watch".
 
 In the end I implemented Dockerfile and docker-compose.yml file as you can see. In order to run the project with the help of the file, you must run with the command: 
 

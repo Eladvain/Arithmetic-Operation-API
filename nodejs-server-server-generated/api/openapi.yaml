@@ -1,0 +1,145 @@
+openapi: 3.0.0
+info:
+  title: Math Operations API
+  description: API to perform arithmetic operations with JWT authentication
+  version: 1.0.0
+servers:
+- url: /
+paths:
+  /calculate:
+    post:
+      summary: Execute the operation between 2 numeric numbers
+      operationId: calculatePOST
+      parameters:
+      - name: operation
+        in: header
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          enum:
+          - add
+          - subtract
+          - multiply
+          - divide
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CalculationRequest'
+        required: true
+      responses:
+        "201":
+          description: Successful calculation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_201'
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_400'
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_401'
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_500'
+      security:
+      - bearerAuth: []
+      x-swagger-router-controller: Default
+  /login:
+    post:
+      summary: LogIn
+      operationId: loginPOST
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/logInRequest'
+        required: true
+      responses:
+        "201":
+          description: Successful Login
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_201_1'
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_400'
+      x-swagger-router-controller: Default
+components:
+  schemas:
+    CalculationRequest:
+      required:
+      - x
+      - "y"
+      type: object
+      properties:
+        x:
+          type: number
+        "y":
+          type: number
+    logInRequest:
+      required:
+      - name
+      - password
+      type: object
+      properties:
+        name:
+          type: string
+        password:
+          type: string
+    inline_response_201:
+      type: object
+      properties:
+        result:
+          type: number
+      example:
+        result: 0.80082819046101150206595775671303272247314453125
+    inline_response_400:
+      type: object
+      properties:
+        message:
+          type: string
+        error:
+          type: string
+        statuseCode:
+          type: string
+    inline_response_401:
+      type: object
+      properties:
+        message:
+          type: string
+        statusCode:
+          type: string
+    inline_response_500:
+      type: object
+      properties:
+        message:
+          type: string
+    inline_response_201_1:
+      type: object
+      properties:
+        token:
+          type: string
+      example:
+        token: token
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

@@ -14,7 +14,7 @@ export class AuthService
    async logIn(name : string, password : string) : Promise<any>
   {
     //read users.txt file 
-    const users = await utills.read_from_file('C:\\Users\\אלעד\\Desktop\\numeric-operation-api\\Arithmetic-Operation-API\\arithmetic-operation\\src\\users\\users.txt');
+    const users = await utills.read_from_file('src\\users\\users.txt');
 
     //find if exist user with the same name and password.
     const userIsExist = await users.find(element => element.name === name && element.password === password);
